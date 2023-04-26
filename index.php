@@ -26,14 +26,16 @@ $mail = new PHPMailer(true);
     //Recipients
     $mail->setFrom('contacto@constructoracgr.cl', 'Cotizacion');
     $mail->addAddress('contacto@constructoracgr.cl', 'Cotizacion');     //Add a recipient
-    //$mail->addAddress('ellen@example.com');               //Name is optional
-    //$mail->addReplyTo('info@example.com', 'Information');
-    //$mail->addCC('cc@example.com');
-    //$mail->addBCC('bcc@example.com');
+    //Contador
+    $lastQuoteNumber = file_get_contents('src/cotizacion.txt');
+    //Incrementa el número en uno
+    $newQuoteNumber = $lastQuoteNumber + 1;
+    //Guarda el nuevo número en el archivo
+    file_put_contents('src/cotizacion.txt', $newQuoteNumber);
 
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = 'Cotizacion de '.$_POST['name'];
+    $mail->Subject = 'Cotizacion #'.$newQuoteNumber.' de '.$_POST['name'];
     $mail->Body    = 'Numero contacto: '.$_POST['phone']."\r\n".'Mensaje: '.$_POST['message'];
 
     $mail->send();
